@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-container {
+        display: flex;
+        overflow: hidden;
+      }
+
+      .card-slider {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .card {
+        flex: 0 0 calc(25% - 20px);
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 20px;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .card:hover {
+        transform: scale(1.05);
+      }
+
+      .card img {
+        width: 100%;
+        height: auto;
+      }
+
+      .card-content {
+        padding: 15px;
+      }
+
+      .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .card-description {
+        font-size: 14px;
+        color: #555;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      .button:hover {
+        background-color: #555;
+      }
+      .card-slider {
+        overflow: hidden;
+      }
+
+      .card-container {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .pagination button {
+        padding: 10px 20px;
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .pagination button:hover {
+        background-color: #555;
+      }
+
+      .pagination button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Donation Page</h1>
+    </header>
+
+    <div class="container">
+      <div class="card-slider">
+        <div id="donationContainer" class="card-container">
+          <!-- Donations will be dynamically added here -->
+        </div>
+      </div>
+      <!-- <button id="prevBtn">Previous</button>
+    <button id="nextBtn">Next</button> -->
+    </div>
+    <div class="pagination">
+      <button id="prevBtn">Previous</button>
+      <span id="totalDonations"></span>
+      <button id="nextBtn">Next</button>
+    </div>
+    <script>
+      // Function to fetch the donations and display them with pagination
+      async function getDonations(page = 1, itemsPerPage = 4) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/getDonations?page=${page}&itemsPerPage=${itemsPerPage}`
+          );
+          const data = await response.json();
+
+          // Select the container where donations will be displayed
+          const donationContainer =
+            document.getElementById("donationContainer");
+
+          // Clear any existing content
+          donationContainer.innerHTML = "";
+
+          const donations = data; // Assuming the array is directly returned
+
+          // Loop through the donations and create HTML elements for each
+          donations.forEach((donation) => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+
+            const image = document.createElement("img");
+            image.src = donation.donation_img;
+            image.alt = "Donation Image";
+
+            const content = document.createElement("div");
+            content.classList.add("card-content");
+
+            const title = document.createElement("div");
+            title.classList.add("card-title");
+            title.textContent = donation.donation_title;
+
+            const description = document.createElement("div");
+            description.classList.add("card-description");
+            description.textContent = donation.donation_description;
+
+            // Add a click event listener to each card
+            card.addEventListener("click", () => {
+              // Redirect to index.html
+              window.location.href = "index.html";
+            });
+
+            // You can add more details as needed
+
+            // Append elements to the card
+            content.appendChild(title);
+            content.appendChild(description);
+
+            card.appendChild(image);
+            card.appendChild(content);
+
+            // Append the card to the donation container
+            donationContainer.appendChild(card);
+          });
+
+          // Set up pagination
+          const prevBtn = document.getElementById("prevBtn");
+          const nextBtn = document.getElementById("nextBtn");
+
+          prevBtn.addEventListener("click", () => {
+            if (page > 1) {
+              getDonations(page - 1, itemsPerPage);
+            }
+          });
+
+          nextBtn.addEventListener("click", () => {
+            getDonations(page + 1, itemsPerPage);
+          });
+
+          prevBtn.disabled = page === 1;
+
+          // Determine if there are more pages
+          const hasMorePages = donations.length === itemsPerPage;
+          nextBtn.disabled = !hasMorePages;
+        } catch (error) {
+          console.error("Error fetching donations:", error);
+        }
+      }
+
+      // Call the function to fetch and display the donations with pagination
+      getDonations();
+    </script>
+  </body>
+</html>

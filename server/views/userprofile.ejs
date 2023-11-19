@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        form {
+            max-width: 400px;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<p>Username: <%= user.username %></p>
+<p>Email: <%= user.email %></p>
+<p>Phone Number: <%= user.phoneNumber %></p>
+<p>Age: <%= user.age %></p>
+<p>User Location: <%= user.user_location %></p>
+
+    <!-- username email phoneNumber age user_location -->
+
+
+    <h1>all</h1>
+  <ul>
+    <% for (let i = 0; i < all.length; i++) { %>
+      <li>
+        <p>Request ID: <%= all[i]._id %></p>
+        <p>Beneficiary: <%= all[i].beneficiary_user %></p>
+        <p>Status: <%= all[i].status %></p>
+      </li>
+    <% } %>
+  </ul>
+
+
+
+    <form method="post" action="/newrequest">
+        <h1>New Request</h1>
+        <label for="beneficiarie_description">Description:</label>
+        <input type="text" id="beneficiarie_description" name="beneficiarie_description" required>
+
+        <label for="card_number">Card Number:</label>
+        <input type="text" id="card_number" name="card_number" required>
+
+        <label for="beneficiarie_amount">Amount:</label>
+        <input type="text" id="beneficiarie_amount" name="beneficiarie_amount" required>
+
+        <label for="beneficiarie_type">Type:</label>
+        <input type="text" id="beneficiarie_type" name="beneficiarie_type" required>
+
+        <button type="submit">Submit Request</button>
+    </form>
+</body>
+</html>

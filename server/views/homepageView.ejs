@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home page</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Navbar styles */
+      .navbar {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
+
+      /* Container for all content with padding */
+      .content-container {
+        padding: 20px;
+      }
+
+      /* Container for all donation cards */
+      .donation-cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        column-gap: 10px;
+        row-gap: 70px;
+        margin: 40px;
+      }
+
+      /* Style for each individual donation card */
+      .donation-card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s;
+        background-color: #fff;
+        max-width: 300px;
+        width: 100%;
+      }
+
+      /* Hover effect for each donation card */
+      .donation-card:hover {
+        transform: scale(1.05);
+      }
+
+      /* Donation image styling */
+      .donation-img {
+        max-width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+      }
+
+      /* Donation title styling */
+      .donation-title {
+        font-size: 18px;
+        font-weight: bold;
+        padding: 10px;
+        margin: 0;
+        color: #333;
+      }
+
+      /* Donation description styling */
+      .donation-description {
+        padding: 10px;
+        color: #666;
+      }
+
+      /* Type and outcome styling */
+      .donation-info {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        color: #888;
+      }
+
+      /* Total donation styling */
+      .total-donation {
+        background-color: #4caf50;
+        color: #fff;
+        text-align: center;
+        padding: 8px;
+        margin-top: 10px;
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }
+
+      .pagination-button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .pagination-button.disabled {
+        background-color: #ddd;
+        color: #666;
+        padding: 8px;
+        border: none;
+        border-radius: 5px;
+        cursor: not-allowed;
+      }
+
+      /* Footer styles */
+      .footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <div class="navbar">
+      <h1>Your Donation Website</h1>
+    </div>
+
+    <!-- Container for all content with padding -->
+    <div class="content-container">
+      <!-- Donation Cards -->
+      <div class="donation-cards-container">
+        <% donations.forEach(donation => { %>
+        <div class="donation-card">
+          <img
+            class="donation-img"
+            src="<%= donation.donation_img %>"
+            alt="Donation Image" />
+          <h3 class="donation-title"><%= donation.donation_title %></h3>
+          <p class="donation-description">
+            <%= donation.donation_description %>
+          </p>
+          <p class="donation-info">Type: <%= donation.donation_type %></p>
+          <p class="donation-info">
+            Expected Outcome: <%= donation.expected_outcome %>
+          </p>
+          <p class="total-donation">
+            Total Donation: <%= donation.total_donation %>$
+          </p>
+        </div>
+        <% }); %>
+      </div>
+
+      <div class="pagination">
+        <% if (donations.previous) { %>
+        <a
+          href="/getDonationsWithPagination?page=<%= donations.previous.page %>&limit=<%= donations.previous.limit %>"
+          class="pagination-button"
+          >Previous</a
+        >
+        <% } else { %>
+        <span class="pagination-button disabled">Previous</span>
+        <% } %> <% if (donations.next) { %>
+        <a
+          href="/getDonationsWithPagination?page=<%= donations.next.page %>&limit=<%= donations.next.limit %>"
+          class="pagination-button"
+          >Next</a
+        >
+        <% } else { %>
+        <span class="pagination-button disabled">Next</span>
+        <% } %>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>&copy; 2023 Your Donation Website</p>
+    </div>
+  </body>
+</html>

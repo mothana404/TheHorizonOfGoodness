@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f4;
+    }
+
+    p {
+        font-size: 24px;
+        color: #333;
+    }
+
+    h1 {
+        color: #333;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 10px 0;
+        padding: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+        margin: 5px 0;
+    }
+
+    p:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    p::before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    .no-requests {
+        font-style: italic;
+        color: #888;
+    }
+</style>
+<body>
+    <p>dashboard</p>
+    <h1>All Requests Admin</h1>
+
+    <% if (requests && requests.length > 0) { %>
+        <ul>
+            <% requests.forEach(request => { %>
+                <li>
+                    <!-- Display relevant information from each request -->
+                    <p>Description: <%= request.beneficiarie_description %></p>
+                    <p>Amount: <%= request.beneficiarie_amount %></p>
+                    <!-- Add more fields as needed -->
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p>No requests found.</p>
+    <% } %>
+
+
+
+
+    <h1>Update Request Status</h1>
+
+    
+  
+
+
+
+    
+
+
+</body>
+</html>
+
