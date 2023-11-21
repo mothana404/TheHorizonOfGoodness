@@ -52,8 +52,8 @@
 
       /* Donation image styling */
       .donation-img {
-        max-width: 100%;
-        height: auto;
+        width: 100%;
+        height: 250px;
         border-bottom: 1px solid #ddd;
       }
 
@@ -96,7 +96,7 @@
       }
 
       .pagination-button {
-        background-color: #4caf50;
+        background-color: hsl(122, 39%, 49%);
         color: #fff;
         padding: 8px;
         border: none;
@@ -129,6 +129,7 @@
     <!-- Navbar -->
     <div class="navbar">
       <h1>Your Donation Website</h1>
+      <a href="http://localhost:8080/userprofile">user profile</a>
     </div>
 
     <!-- Container for all content with padding -->
@@ -150,7 +151,7 @@
             Expected Outcome: <%= donation.expected_outcome %>
           </p>
           <p class="total-donation">
-            Total Donation: <%= donation.total_donation %>$
+            <a href="http://localhost:8080/api/postpayments">Total Donation: <%= donation.total_donation %>$</a>
           </p>
         </div>
         <% }); %>

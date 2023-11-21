@@ -9,7 +9,6 @@ exports.processDonation = async (req, res) => {
   try {
     console.log(req.body);
     const { amount, payment_method } = req.body;
-
     // Create a PaymentIntent to confirm the payment
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Amount in cents
@@ -19,7 +18,6 @@ exports.processDonation = async (req, res) => {
       confirm: true,
       return_url: "http://localhost:5500", // Specify your actual success URL
     });
-
     // Handle the success or failure of the payment intent
     if (paymentIntent.status === "succeeded") {
       // Payment succeeded, save donation data to the database
@@ -30,7 +28,6 @@ exports.processDonation = async (req, res) => {
         // payment_for: mongoose.Types.ObjectId(req.user._id), // Convert to ObjectId
         payment_from: "5fb3b8de3f068509588d8d3a", // Convert to ObjectId
       });
-
       await donation.save();
       res.send({
         client_secret: paymentIntent.client_secret,
@@ -49,7 +46,6 @@ exports.processDonationid = async (req, res) => {
   try {
     console.log(req.body);
     const { amount, payment_method } = req.body;
-
     // Create a PaymentIntent to confirm the payment
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100), // Amount in cents
@@ -59,12 +55,10 @@ exports.processDonationid = async (req, res) => {
       confirm: true,
       return_url: "http://localhost:5500", // Specify your actual success URL
     });
-
     // Handle the success or failure of the payment intent
     if (paymentIntent.status === "succeeded") {
       // Get the donation _id from request parameters
       const donationId = req.params.donationId; // Adjust accordingly based on your route
-
       // Payment succeeded, save donation data to the database
       const donation = new Donation({
         amount: amount,
@@ -72,17 +66,14 @@ exports.processDonationid = async (req, res) => {
         payment_for: donationId, // Set the donation _id dynamically
         payment_from: "5fb3b8de3f068509588d8d3a", // Convert to ObjectId
       });
-
       // Save the donation to get the donation _id
       const savedDonation = await donation.save();
-
       // Update total_donation in your schema
       const updatedDonation = await Donation.findByIdAndUpdate(
         savedDonation._id,
         { $inc: { total_donation: amount } }, // Increment total_donation by the donation amount
         { new: true } // Return the updated document
       );
-
       res.send({
         client_secret: paymentIntent.client_secret,
         donationId: updatedDonation._id,
@@ -123,20 +114,16 @@ exports.postPayments = async (req, res) => {
 exports.getPaymentsByUserId = async (req, res) => {
   try {
     // Extract user ID from the request object
-    const userId = req.userId;
-
+    const userId = req.user.id;
     if (!userId) {
       return res.status(401).json({ error: "User not authenticated" });
     }
-
-    const payments = await Payment.find({ payment_from: userId });
-
+    const payments = await Donation.find({ payment_from: userId });
     if (payments.length === 0) {
       return res
         .status(404)
         .json({ error: "No payments found for the specified user ID" });
     }
-
     res.json(payments);
   } catch (error) {
     console.error("Error fetching payments by user ID:", error);
@@ -149,12 +136,9 @@ exports.getPaginatedPayments = async (req, res) => {
   try {
     const page = req.query.page || 1; // Default to page 1 if not specified
     const pageSize = req.query.pageSize || 10; // Default page size to 10 if not specified
-
     const skip = (page - 1) * pageSize;
-
     // Fetch paginated payments
     const payments = await Donation.find().skip(skip).limit(pageSize);
-
     res.json(payments);
   } catch (error) {
     console.error("Error fetching paginated payments:", error);

@@ -54,8 +54,8 @@ a {
 
 button {
 	border-radius: 20px;
-	border: 1px solid #FF4B2B;
-	background-color: #FF4B2B;
+	border: 1px solid  hsl(122, 39%, 49%);
+	background-color:  hsl(122, 39%, 49%);
 	color: #FFFFFF;
 	font-size: 12px;
 	font-weight: bold;
@@ -169,8 +169,8 @@ input {
 
 .overlay {
 	background: #FF416C;
-	background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-	background: linear-gradient(to right, #FF4B2B, #FF416C);
+	background:  hsl(122, 39%, 49%);
+	background:  hsl(122, 39%, 49%);
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: 0 0;
@@ -251,12 +251,20 @@ footer p {
 }
 
 footer i {
-    color: red;
+    color:  hsl(122, 39%, 49%);
+}
+.social-container {
+    position: absolute;
+    top: 85%;
+    left: 5%;
 }
 
 footer a {
-    color: #3c97bf;
+    color: hsl(122, 39%, 49%);
     text-decoration: none;
+}
+img {
+    width: 35px;
 }
     </style>
 </head>
@@ -264,7 +272,7 @@ footer a {
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
         <div class="social-container">
-            <a href="http://localhost:8080/auth/google" class="social"><i class="fab fa-linkedin-in"></i></a>
+            <a href="http://localhost:8080/auth/google" class="social"><img src="https://freesvg.org/img/1534129544.png" alt=""></i></a>
         </div>
 		<form action="/register" method="post" >
 			<h1>Create Account</h1>
@@ -282,7 +290,7 @@ footer a {
 		<form action="/login" method="post">
 			<h1>Sign in</h1>
 			<div class="social-container">
-				<a href="http://localhost:8080/auth/google" class="social"><i class="fab fa-linkedin-in"></i></a>
+				<a href="http://localhost:8080/auth/google" class="social"><img src="https://freesvg.org/img/1534129544.png" alt=""></i></a>
 			</div>
 			<span>or use your account</span>
 			<input type="email" placeholder="Email" name="email" id="email" />

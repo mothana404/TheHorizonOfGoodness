@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 require("dotenv").config();
 
-
 const schema = Joi.object({
   username: Joi.string().min(3).max(30).required(),
   email: Joi.string().email().required(),
@@ -20,10 +19,9 @@ function validation(username, email, password, phoneNumber) {
     console.log(valid.error);
     return false;
   }
-
 };
 
-async function createUser(req, res) {
+async function createUser(req, res, next) {
   try {
     const { username, email, password, phoneNumber, age, user_location } =
       req.body;
@@ -44,10 +42,13 @@ async function createUser(req, res) {
             newUser.age = age;
             newUser.user_location = user_location
             newUser.save();
-            const accessToken = jwt.sign({id : newUser.id, email : newUser.email, role: newUser.role}, process.env.SECRET_KEY, {expiresIn: '4h'});
+            const accessToken = jwt.sign(
+                {id : newUser.id, email : newUser.email, role: newUser.role, phoneNumber : newUser.phoneNumber, age: newUser.age, user_location : newUser.user_location, name: newUser.username},
+                 process.env.SECRET_KEY, {expiresIn: '4h'});
             res.cookie('accessToken', accessToken, { httpOnly: true });
             // res.render('homepageView.ejs', {newUser, accessToken});
-            res.status(200).json({newUser, accessToken});
+            // res.status(200).json({newUser, accessToken});
+            next();
         }else {
             res.status(400).json("Invalid input");
         }
@@ -58,7 +59,7 @@ async function createUser(req, res) {
   }
 }
 
-async function loginUser (req, res){
+async function loginUser (req, res, next){
 
     try {
       const { email, password } = req.body;
@@ -70,10 +71,11 @@ async function loginUser (req, res){
                 if (error) {
                     res.status(400).json(error);
                 } else if (result) {
-                    const accessToken = jwt.sign({id : theUser.id, email : theUser.email, role: theUser.role}, process.env.SECRET_KEY, {expiresIn: '4h'});
+                    const accessToken = jwt.sign({id : theUser.id, email : theUser.email, role: theUser.role, phoneNumber : theUser.phoneNumber, age: theUser.age, user_location : theUser.user_location, name: theUser.username},
+                         process.env.SECRET_KEY, {expiresIn: '4h'});
                     res.cookie('accessToken', accessToken, { httpOnly: true });
-
-                    res.status(200).json({theUser, accessToken});
+                    // res.status(200).json({theUser, accessToken});
+                    next();
                     // res.render('homepageview.ejs', {accessToken});
                 } else {
                     res.status(400).json('incorrect password');

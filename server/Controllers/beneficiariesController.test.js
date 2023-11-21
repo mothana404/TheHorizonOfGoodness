@@ -3,9 +3,6 @@ const app = require('../server');
 const Beneficiary = require('../Models/beneficiariesModel');
 const mongoose = require('mongoose');
 
-
-
-
 beforeAll(async () => {
     // Check if a connection is already established
     if (mongoose.connection.readyState === 0) {
@@ -22,9 +19,6 @@ beforeAll(async () => {
       await mongoose.connection.close();
     }
   });
-
-
-
 
   describe('POST /newrequest', () => {
     it('should create a new request', async () => {

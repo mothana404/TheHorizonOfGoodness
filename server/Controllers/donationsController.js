@@ -3,7 +3,7 @@ const Donation = require("../Models/donationModel");
 async function addDonation(req, res) {
   try {
     const donor_id = req.user.id;
-    if (req.user.role === 2) {
+    if (req.user.role === 1) {
       const {
         donation_title,
         donation_description,
@@ -94,9 +94,9 @@ async function deleteDonation(req, res) {
 
 async function getDonations(req, res) {
   try {
-    const limit = parseInt(req.query.limit) || 4;
+    // const limit = parseInt(req.query.limit) || 4;
 
-    const donations = await Donation.find({ is_deleted: false }).limit(limit);
+    const donations = await Donation.find({ is_deleted: false });
 
     // res.json(donations);
     res.render("homepageView.ejs", { donations });

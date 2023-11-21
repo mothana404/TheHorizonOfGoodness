@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-const session = require('express-session');
+// const session = require('express-session');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const Users = require('../Models/userModel');
 require('dotenv').config();
@@ -19,7 +19,6 @@ passport.use(new GoogleStrategy({
     if (req.isAuthenticated()) {
          done(null, req.user);
       }
-  
       // Check if the user exists in the database based on their Google ID or email
       const existingUser = await Users.findOne({
         $or: [
@@ -27,7 +26,6 @@ passport.use(new GoogleStrategy({
           { email: profile.email },
         ],
       });
-  
       if (existingUser) {
         // User exists, log in
          done(null, existingUser.toJSON());
